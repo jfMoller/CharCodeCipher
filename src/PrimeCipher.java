@@ -3,7 +3,7 @@ import java.util.List;
 
 public class PrimeCipher {
     public static void main(String[] args) {
-        String text = "TESTALGO";
+        String text = "KRYPTERING";
 
         List<CipherEntry> letters = new ArrayList<>();
         // adds the English alphabet from entries
@@ -70,14 +70,10 @@ public class PrimeCipher {
             char encryptedLetter = encryptedLetters.get(i);
             int encryptionKey = encryptionKeys.get(i);
 
-            // Handles non-letter symbols (no decryption)
-            if (!Character.isLetter(encryptedLetter)) {
-                decryptedText.append(encryptedLetter);
-                continue;
-            } else {
-               char decryptedLetter = (char) (encryptedLetter - encryptionKey);
-                decryptedText.append(decryptedLetter);
-            }
+
+            char decryptedLetter = (char) (encryptedLetter - encryptionKey);
+            decryptedText.append(decryptedLetter);
+
         }
 
         return decryptedText.toString();
