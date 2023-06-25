@@ -12,19 +12,18 @@ public class CipherText {
         for (int i = 0; i <= (text.length() - 1); i++) {
             char letter = Character.toUpperCase(text.charAt(i));
             int encryptionKey = getRandomInteger(2, 1000);
-
-            // handles non-letter symbols (no encryption)
-            if (!Character.isLetter(letter)) {
-                encryptedLetters.add(letter);
-                continue;
-            } else {
-                int index = getIndexFromList(letters, String.valueOf(letter));
-                int encryptedIndex = (index + encryptionKey);
-                encryptionKeys.add(encryptionKey);
+            int index = getIndexFromList(letters, String.valueOf(letter));
+            int encryptedIndex = (index + encryptionKey);
+            encryptionKeys.add(encryptionKey);
+            if (Character.isLetter(letter)) { // Decrypt letters
                 char encryptedLetter = (char) (encryptedIndex + 65);
                 encryptedLetters.add(encryptedLetter);
                 encryptedText.append(encryptedLetter);
+            } else {
+                encryptedLetters.add(letter);
+                encryptedText.append(letter);
             }
+
         }
         return encryptedText.toString();
     }
@@ -36,13 +35,24 @@ public class CipherText {
             char encryptedLetter = encryptedLetters.get(i);
             int encryptionKey = encryptionKeys.get(i);
 
-
-            char decryptedLetter = (char) (encryptedLetter - encryptionKey);
-            decryptedText.append(decryptedLetter);
+            if (encryptedLetter == ' ' || encryptedLetter == '?' || encryptedLetter == '-') {
+                decryptedText.append(encryptedLetter);
+            } else {
+                char decryptedLetter = (char) (encryptedLetter - encryptionKey);
+                decryptedText.append(decryptedLetter);
+            }
 
         }
 
         return decryptedText.toString();
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String toString() {
+        return text;
     }
 
 
