@@ -53,7 +53,7 @@ public class CipherMenu {
                     }
 
                     CipherText encryptedText = new CipherText(encryptedInput);
-                    System.out.println("Paste the encryption keys including the brackets:");
+                    System.out.println("Paste the encryption keys:");
                     String keys = userInput.nextLine();
 
                     while (keys.isEmpty()) {

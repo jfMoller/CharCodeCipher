@@ -16,7 +16,7 @@ public class CipherText {
 
         for (int i = 0; i < text.length(); i++) {
             char letter = text.charAt(i);
-            int encryptionKey = getRandomInteger(2, 1000);
+            int encryptionKey = getRandomInteger(100, 999);
             encryptionKeys.add(encryptionKey);
 
             int encryptedIndex = letter + encryptionKey;
@@ -24,10 +24,11 @@ public class CipherText {
             encryptedText.append(encryptedLetter);
         }
 
-        Map<String, String> result = new HashMap<>();
-        result.put("text", encryptedText.toString());
-        result.put("keys", encryptionKeys.toString());
-        return result;
+        Map<String, String> encryptedResult = new HashMap<>();
+        encryptedResult.put("text", encryptedText.toString());
+        String formattedKeys = formatKeys(encryptionKeys.toString());
+        encryptedResult.put("keys", formattedKeys);
+        return encryptedResult;
     }
 
     public String decrypt(String keysInput) {
@@ -59,20 +60,24 @@ public class CipherText {
         return decryptedText.toString();
     }
 
-    public String getText() {
-        return text;
-    }
-
     public String toString() {
         return text;
     }
 
     public int getRandomInteger(int min, int max) {
+        if (max <= min) {
+            throw new IllegalArgumentException("Invalid range for getRandomInteger: max must be greater than min");
+        }
         return (int) Math.round((Math.random() * (max - min + 1)) + min);
     }
 
+    public String formatKeys(String keysOutput) {
+        return keysOutput.replace("[", "").replace("]", "").replace(", ", "");
+    }
+
     public void parseKeys(String keysInput, List<Integer> encryptionKeys) {
-        String[] keysArray = keysInput.replace("[", "").replace("]", "").split(", ");
+        String formattedKeysInput = keysInput.replaceAll("[^\\d]", ""); // Remove any non-digit characters
+        String[] keysArray = formattedKeysInput.split("(?<=\\G.{3})");
         for (String key : keysArray) {
             encryptionKeys.add(Integer.parseInt(key));
         }
