@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CipherText {
     private String text;
@@ -7,36 +10,47 @@ public class CipherText {
         this.text = text;
     }
 
-    public String encrypt(List<Character> encryptedLetters, List<Integer> encryptionKeys) {
-
+    public Map<String, String> encrypt() {
         StringBuilder encryptedText = new StringBuilder();
+        List<Integer> encryptionKeys = new ArrayList<>();
 
-        for (int i = 0; i <= (text.length() - 1); i++) {
-
+        for (int i = 0; i < text.length(); i++) {
             char letter = text.charAt(i);
             int encryptionKey = getRandomInteger(2, 1000);
             encryptionKeys.add(encryptionKey);
 
-            int encryptedIndex = ((int) letter + encryptionKey);
-            char encryptedLetter = (char) (encryptedIndex);
-            encryptedLetters.add(encryptedLetter);
+            int encryptedIndex = letter + encryptionKey;
+            char encryptedLetter = (char) encryptedIndex;
             encryptedText.append(encryptedLetter);
-
         }
-        return encryptedText.toString();
+
+        Map<String, String> result = new HashMap<>();
+        result.put("text", encryptedText.toString());
+        result.put("keys", encryptionKeys.toString());
+        return result;
     }
 
-    public static String decrypt(List<Character> encryptedLetters, List<Integer> encryptionKeys) {
+    public String decrypt(String keysInput) {
+        if (text.isEmpty() || keysInput.isEmpty()) {
+            return "Error: Empty text input";
+        }
 
-        if (encryptionKeys.size() == 0) {
-            String error = "Error, no encryption keys";
-            return error;
+        List<Integer> encryptionKeys = new ArrayList<>();
+
+        try {
+            parseKeys(keysInput, encryptionKeys);
+        } catch (NumberFormatException e) {
+            return "Error: Incorrect key format";
+        }
+
+        if (encryptionKeys.size() != text.length()) {
+            return "Error: Mismatched key length";
         }
 
         StringBuilder decryptedText = new StringBuilder();
 
-        for (int i = 0; i < encryptedLetters.size(); i++) {
-            char encryptedLetter = encryptedLetters.get(i);
+        for (int i = 0; i < text.length(); i++) {
+            char encryptedLetter = text.charAt(i);
             int encryptionKey = encryptionKeys.get(i);
 
             char decryptedLetter = (char) (encryptedLetter - encryptionKey);
@@ -55,5 +69,12 @@ public class CipherText {
 
     public int getRandomInteger(int min, int max) {
         return (int) Math.round((Math.random() * (max - min + 1)) + min);
+    }
+
+    public void parseKeys(String keysInput, List<Integer> encryptionKeys) {
+        String[] keysArray = keysInput.replace("[", "").replace("]", "").split(", ");
+        for (String key : keysArray) {
+            encryptionKeys.add(Integer.parseInt(key));
+        }
     }
 }
