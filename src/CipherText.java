@@ -7,43 +7,41 @@ public class CipherText {
         this.text = text;
     }
 
-    public String encrypt(List<CipherEntry> letters, List<Character> encryptedLetters, List<Integer> encryptionKeys) {
+    public String encrypt(List<Character> encryptedLetters, List<Integer> encryptionKeys) {
+
         StringBuilder encryptedText = new StringBuilder();
+
         for (int i = 0; i <= (text.length() - 1); i++) {
-            char letter = Character.toUpperCase(text.charAt(i));
+
+            char letter = text.charAt(i);
             int encryptionKey = getRandomInteger(2, 1000);
-            int index = getIndexFromList(letters, String.valueOf(letter));
-            int encryptedIndex = (index + encryptionKey);
             encryptionKeys.add(encryptionKey);
-            if (Character.isLetter(letter)) { // Decrypt letters
-                char encryptedLetter = (char) (encryptedIndex + 65);
-                encryptedLetters.add(encryptedLetter);
-                encryptedText.append(encryptedLetter);
-            } else {
-                encryptedLetters.add(letter);
-                encryptedText.append(letter);
-            }
+
+            int encryptedIndex = ((int) letter + encryptionKey);
+            char encryptedLetter = (char) (encryptedIndex);
+            encryptedLetters.add(encryptedLetter);
+            encryptedText.append(encryptedLetter);
 
         }
         return encryptedText.toString();
     }
 
-    public static String decrypt(List<Character> encryptedLetters, List<CipherEntry> letters, List<Integer> encryptionKeys) {
+    public static String decrypt(List<Character> encryptedLetters, List<Integer> encryptionKeys) {
+
+        if (encryptionKeys.size() == 0) {
+            String error = "Error, no encryption keys";
+            return error;
+        }
+
         StringBuilder decryptedText = new StringBuilder();
 
         for (int i = 0; i < encryptedLetters.size(); i++) {
             char encryptedLetter = encryptedLetters.get(i);
             int encryptionKey = encryptionKeys.get(i);
 
-            if (encryptedLetter == ' ' || encryptedLetter == '?' || encryptedLetter == '-') {
-                decryptedText.append(encryptedLetter);
-            } else {
-                char decryptedLetter = (char) (encryptedLetter - encryptionKey);
-                decryptedText.append(decryptedLetter);
-            }
-
+            char decryptedLetter = (char) (encryptedLetter - encryptionKey);
+            decryptedText.append(decryptedLetter);
         }
-
         return decryptedText.toString();
     }
 
@@ -53,17 +51,6 @@ public class CipherText {
 
     public String toString() {
         return text;
-    }
-
-
-    public int getIndexFromList(List<CipherEntry> letters, String targetLetter) {
-        for (int i = 0; i < letters.size(); i++) {
-            CipherEntry cipherEntry = letters.get(i);
-            if (cipherEntry.getLetter().equals(targetLetter)) {
-                return i;
-            }
-        }
-        return -1; // if index does not exist in letters
     }
 
     public int getRandomInteger(int min, int max) {
