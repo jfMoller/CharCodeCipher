@@ -9,31 +9,24 @@ The new value is then type-casted as char: (char) 654 -> 'ʎ'.
 
 ## Example:
 #### 1. Enter the text that you want to encrypt:
-Text:
 ```
 Each character of this text will have its Unicode scrambled!
 ```
 #### Encryption result:
-Encrypted text:
 ```
 ýŎƲ˫ƫ͒ßſ̻ΓâɂʙʃĐǳϏȿ̛
 ```
-
-Encryption keys:
 ```
 176237327646395741122351710805112477568543175401867474762
 ```
 #### 2. Enter the text you want to decrypt, then enter the keys
-Encrypted text:
 ```
 ̗ĩʮČĉûʺȱΧαȽ΀˺Ȏʹń̑
 ```
-Encryption keys:
 ```
 718182654152161146583529821844476796665428776223722
 ```
 #### Decryption result:
-Text:
 ```
 Is this readable?
 ```
