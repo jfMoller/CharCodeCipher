@@ -7,6 +7,12 @@ Encryption is performed by adding a random encryption key to the original decima
 For example, the character 'A' has a DCV of 65. If an encryption key with the value 589 is added, the result is 65 + 589 = 654.
 The new value is then type-casted as char: (char) 654 -> 'ʎ'.
 
+## How to run locally:
+
+    1. Download the ZIP file from the repository.
+    2. Open the ZIP file with your preferred IDE.
+    3. Locate the Main class and run the main method in the terminal.
+
 ## Example:
 #### 1. Enter the text that you want to encrypt:
 ```
@@ -27,6 +33,7 @@ Each character of this text will have its Unicode scrambled!
 718182654152161146583529821844476796665428776223722
 ```
 #### Decryption result:
+
 ```
 Is this readable?
 ```
